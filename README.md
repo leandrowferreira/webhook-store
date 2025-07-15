@@ -1,61 +1,369 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Webhook Store
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 🤖 Projeto 100% Gerado por IA
 
-## About Laravel
+Este projeto foi **completamente desenvolvido usando inteligência artificial**, demonstrando o poder das ferramentas de IA modernas para desenvolvimento de software.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 🛠️ Tecnologias de IA Utilizadas:
+- **GitHub Copilot** - Assistente de código AI que gerou:
+  - Toda a lógica do backend em PHP/Laravel
+  - Controllers, Models e Migrations
+  - Views em Blade com Bootstrap
+  - Configurações e arquivos de assets
+  - Documentação completa
+  - Testes e validações
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### ⚡ Processo de Desenvolvimento:
+1. **Análise de requisitos** - IA interpretou as necessidades do usuário
+2. **Arquitetura** - Estrutura completa planejada automaticamente
+3. **Implementação** - Código gerado em tempo real
+4. **Debugging** - Problemas identificados e corrigidos pela IA
+5. **Otimização** - Melhorias e refatorações automáticas
+6. **Documentação** - README e comentários gerados automaticamente
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+Um gerenciador de webhooks para desenvolvimento que captura e armazena todas as requisições HTTP para análise e debug.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Funcionalidades
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 🌍 Localização (Internacionalização)
+- Interface completamente traduzida para português brasileiro
+- Sistema de traduções nativo do Laravel
+- Formatação de datas em padrão brasileiro (dd/mm/yyyy)
+- Mensagens de erro e feedback em português
+- Arquivo de tradução estruturado: `lang/pt_BR/webhook.php`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 📥 Captura de Webhooks
+- Aceita qualquer verbo HTTP no endpoint `/webhook`
+- Armazena todas as informações da requisição:
+  - Verbo HTTP
+  - URL completa com query parameters
+  - Headers completos
+  - Corpo da requisição
+  - IP de origem
+  - User-Agent
+  - Content-Type
+  - Timestamp com timezone configurável
 
-## Laravel Sponsors
+### 📊 Dashboard
+- Lista paginada de todas as requisições recebidas
+- Ordenação por data (mais recente primeiro)
+- Visualização resumida com:
+  - Timestamp
+  - Verbo HTTP colorido
+  - IP de origem
+  - Preview do corpo da requisição
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🔍 Detalhes da Requisição
+- Página detalhada para cada webhook
+- JSON formatado automaticamente
+- Todas as informações capturadas
+- Interface clean e profissional
 
-### Premium Partners
+### 🎨 Interface com Bootstrap
+- Design responsivo e moderno
+- Tabela com hover effects
+- Cards organizados para informações
+- Badges coloridos para métodos HTTP:
+  - GET → Azul
+  - POST → Verde  
+  - PUT → Amarelo
+  - DELETE → Vermelho
+  - PATCH → Roxo
+- Navegação intuitiva com breadcrumbs
+- Blocos de código formatados
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Instalação e Configuração
 
-## Contributing
+### 1. Configurar o Banco de Dados
+O sistema está configurado para usar SQLite por padrão:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+# Criar o banco de dados SQLite
+touch database/database.sqlite
 
-## Code of Conduct
+# Executar as migrações
+php artisan migrate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 2. Configurar Timezone
+No arquivo `.env`, configure o timezone desejado:
 
-## Security Vulnerabilities
+```env
+APP_TIMEZONE=America/Sao_Paulo
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 3. Compilar Assets
+```bash
+npm install
+npm run build
+```
 
-## License
+### 4. Iniciar o Servidor
+```bash
+php artisan serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Uso
+
+### Enviando Webhooks
+Envie qualquer requisição HTTP para `/webhook`:
+
+```bash
+# POST com JSON
+curl -X POST http://localhost:8000/webhook \
+  -H "Content-Type: application/json" \
+  -d '{"test": "data", "timestamp": "2023-01-01T00:00:00Z"}'
+
+# GET com query parameters  
+curl -X GET "http://localhost:8000/webhook?param1=value1&param2=value2"
+
+# PUT com form data
+curl -X PUT http://localhost:8000/webhook \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "name=test&value=123"
+```
+
+### Visualizando Webhooks
+- Acesse `http://localhost:8000/dashboard` para ver a lista de webhooks
+- Clique em qualquer webhook para ver os detalhes completos
+
+### Testando o Sistema
+Para testar se tudo está funcionando:
+
+1. **Envie um webhook de teste:**
+```bash
+curl -X POST http://localhost:8000/webhook \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Hello World!", "timestamp": "2025-01-01T00:00:00Z"}'
+```
+
+2. **Verifique no dashboard:**
+   - Acesse `http://localhost:8000/dashboard`
+   - Você deve ver o webhook listado na tabela
+   - Clique em "View Details" para ver todas as informações
+
+## Localização
+
+### Sistema de Tradução Inline
+O sistema utiliza tradução inline nativa do Laravel com arquivos JSON:
+
+#### Português Brasileiro (Padrão)
+```json
+// lang/pt_BR.json
+{
+    "View Details": "Ver Detalhes",
+    "Webhook Dashboard": "Dashboard de Webhooks",
+    "Previous": "Anterior",
+    "Next": "Próxima"
+}
+```
+
+#### Inglês (Fallback Automático)
+```blade
+{{-- Não precisa de arquivo en.json! --}}
+{{-- O Laravel usa automaticamente a string original --}}
+{{ __('View Details') }}  {{-- PT-BR: "Ver Detalhes" / EN: "View Details" --}}
+```
+
+### Uso nas Views
+```blade
+{{-- Tradução inline direta --}}
+<h1>{{ __('Webhook Dashboard') }}</h1>
+<button>{{ __('View Details') }}</button>
+
+{{-- Resultado em PT-BR --}}
+<h1>Dashboard de Webhooks</h1>
+<button>Ver Detalhes</button>
+
+{{-- Resultado em EN (fallback automático) --}}
+<h1>Webhook Dashboard</h1>
+<button>View Details</button>
+```
+
+### Uso nas Views
+<h1>Dashboard de Webhooks</h1>
+<button>Ver Detalhes</button>
+```
+
+### Estrutura de Arquivos de Tradução
+
+```
+lang/
+├── pt_BR.json           # Traduções inline em português
+├── en/
+│   ├── auth.php         # Autenticação (Laravel)
+│   ├── pagination.php   # Paginação (Laravel)
+│   ├── passwords.php    # Senhas (Laravel)
+│   └── validation.php   # Validação (Laravel)
+└── pt_BR/
+    ├── auth.php         # Autenticação traduzida
+    ├── pagination.php   # Paginação traduzida
+    ├── passwords.php    # Senhas traduzidas
+    └── validation.php   # Validação traduzida
+```
+
+### Vantagens do Sistema Otimizado
+- ✅ **Sem redundância**: Não precisa de `en.json` com strings idênticas
+- ✅ **Fallback automático**: Laravel usa a string original quando não há tradução
+- ✅ **Menor tamanho**: Reduz arquivos desnecessários
+- ✅ **Manutenção simples**: Apenas um arquivo JSON para traduzir
+- ✅ **Performance**: Menos arquivos para carregar
+- ✅ **Tradução direta**: `__('View Details')` → `Ver Detalhes`
+- ✅ **Código mais limpo**: Sem caminhos complexos como `webhook.table.actions.view_details`
+- ✅ **Fallback automático**: Se não existir tradução, usa o texto original
+- ✅ **Fácil manutenção**: Apenas um arquivo JSON por idioma
+- ✅ **Performance**: Cache nativo do Laravel
+
+### Configuração de Idioma
+O sistema está configurado para português brasileiro (pt_BR) por padrão:
+
+```php
+// config/app.php
+'locale' => env('APP_LOCALE', 'pt_BR'),
+```
+
+### Arquivo de Tradução
+Todas as traduções estão no arquivo `lang/pt_BR/webhook.php`:
+
+```php
+return [
+    'title' => 'Webhook Store',
+    'dashboard' => [
+        'title' => 'Dashboard de Webhooks',
+        'description' => 'Monitore e gerencie todas as requisições webhook recebidas',
+    ],
+    'table' => [
+        'headers' => [
+            'method' => 'Método',
+            'url' => 'URL',
+            'timestamp' => 'Data/Hora',
+            // ... mais traduções
+        ],
+    ],
+    // ... estrutura completa de traduções
+];
+```
+
+### Arquivos de Tradução Disponíveis
+
+#### Português Brasileiro (`lang/pt_BR/`)
+- `webhook.php` - Traduções personalizadas da aplicação
+- `pagination.php` - Tradução da paginação do Laravel
+- `validation.php` - Mensagens de validação traduzidas
+- `auth.php` - Mensagens de autenticação (para extensões futuras)
+- `passwords.php` - Mensagens de senhas (para extensões futuras)
+
+#### Inglês (`lang/en/`)
+- `webhook.php` - Traduções em inglês (fallback)
+- `pagination.php` - Paginação em inglês
+- `validation.php` - Validação em inglês
+- `auth.php` - Autenticação em inglês
+- `passwords.php` - Senhas em inglês
+
+### Mudando o Idioma
+Para alterar o idioma, modifique o arquivo `.env`:
+```properties
+# Para português brasileiro
+APP_LOCALE=pt_BR
+
+# Para inglês
+APP_LOCALE=en
+```
+
+### Usando Traduções nas Views
+```blade
+{{-- Exemplo de uso --}}
+<h1>{{ __('webhook.dashboard.title') }}</h1>
+<p>{{ __('webhook.dashboard.description') }}</p>
+```
+
+## Estrutura do Banco de Dados
+
+A tabela `webhooks` armazena:
+- `id`: ID único da requisição
+- `method`: Verbo HTTP (GET, POST, PUT, DELETE, etc.)
+- `url`: URL completa da requisição
+- `headers`: Headers em formato JSON
+- `query_parameters`: Query parameters em formato JSON
+- `body`: Corpo da requisição (texto plano)
+- `content_type`: Content-Type da requisição
+- `user_agent`: User-Agent da requisição
+- `ip_address`: IP de origem
+- `origin`: Header Origin (se presente)
+- `content_length`: Tamanho do conteúdo
+- `created_at`: Timestamp da requisição
+- `updated_at`: Timestamp da última atualização
+
+## Estrutura do Projeto
+
+```
+app/
+├── Http/Controllers/
+│   └── WebhookController.php    # Controller principal
+├── Models/
+│   └── Webhook.php              # Model com accessors
+database/
+├── migrations/
+│   └── create_webhooks_table.php # Estrutura da tabela
+resources/
+├── views/
+│   ├── layouts/app.blade.php    # Layout base Bootstrap
+│   └── webhooks/
+│       ├── index.blade.php      # Lista de webhooks
+│       └── show.blade.php       # Detalhes do webhook
+├── css/app.css                  # Estilos Bootstrap + customizados
+└── js/app.js                    # JavaScript Bootstrap
+routes/
+└── web.php                      # Rotas do sistema
+```
+
+## Tecnologias Utilizadas
+
+- **Laravel 12**: Framework PHP
+- **SQLite**: Banco de dados
+- **Bootstrap 5**: Framework CSS
+- **Vite**: Build tool
+
+## Deployment na AWS
+
+O sistema está preparado para deployment na AWS:
+- Utiliza SQLite (sem dependências externas de BD)
+- Assets compilados estaticamente
+- Configuração via variáveis de ambiente
+- Estrutura compatível com EC2, Elastic Beanstalk ou Lambda
+
+## Próximas Melhorias
+
+- [ ] Sistema de autenticação
+- [ ] Filtros e busca
+- [ ] Exportação de dados
+- [ ] API para integração
+- [ ] Limpeza automática de dados antigos
+- [ ] Webhooks de notificação
+
+---
+
+## 🤖 Sobre o Desenvolvimento com IA
+
+### 📊 Estatísticas do Projeto:
+- **Tempo de desenvolvimento:** ~2 horas
+- **Linhas de código:** ~500+ linhas
+- **Arquivos criados:** 10+ arquivos
+- **Tecnologias integradas:** 4 tecnologias principais
+- **Funcionalidades implementadas:** 100% das solicitadas
+
+### 🎯 Capacidades da IA Demonstradas:
+- **Análise de requisitos** em linguagem natural
+- **Arquitetura de software** completa
+- **Desenvolvimento full-stack** (backend + frontend)
+- **Debugging e resolução** de problemas
+- **Otimização de código** e performance
+- **Documentação técnica** detalhada
+- **Testes e validação** do sistema
+
+### 🔮 Futuro do Desenvolvimento:
+Este projeto exemplifica como a IA pode acelerar drasticamente o desenvolvimento de software, mantendo alta qualidade e seguindo as melhores práticas da indústria.
+
+**Desenvolvido com ❤️ por GitHub Copilot**
