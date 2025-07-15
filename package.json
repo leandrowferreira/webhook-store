@@ -1,5 +1,8 @@
 {
     "$schema": "https://json.schemastore.org/package.json",
+    "name": "webhook-store",
+    "version": "1.0.0",
+    "description": "Sistema de captura e gerenciamento de webhooks para desenvolvimento - 100% desenvolvido com IA",
     "private": true,
     "type": "module",
     "scripts": {

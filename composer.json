@@ -1,9 +1,10 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "leandrowferreira/webhook-store",
+    "version": "1.0.0",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "Sistema de captura e gerenciamento de webhooks para desenvolvimento - 100% desenvolvido com IA",
+    "keywords": ["laravel", "webhook", "capture", "debug", "development", "ai-generated"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
