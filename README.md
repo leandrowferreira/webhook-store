@@ -1,7 +1,7 @@
 # Webhook Store
 
-[![Tests](https://github.com/leandrowferreira/webhook-store/actions/workflows/tests.yml/badge.svg?branch=feature/test-suite-with-pest)](https://github.com/leandrowferreira/webhook-store/actions/workflows/tests.yml)
-[![Coverage](https://github.com/leandrowferreira/webhook-store/actions/workflows/coverage.yml/badge.svg?branch=feature/test-suite-with-pest)](https://github.com/leandrowferreira/webhook-store/actions/workflows/coverage.yml)
+[![Tests](https://github.com/leandrowferreira/webhook-store/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/leandrowferreira/webhook-store/actions/workflows/tests.yml)
+[![Coverage](https://github.com/leandrowferreira/webhook-store/actions/workflows/coverage.yml/badge.svg?branch=main)](https://github.com/leandrowferreira/webhook-store/actions/workflows/coverage.yml)
 [![Laravel](https://img.shields.io/badge/Laravel-12.20.0-red.svg)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.2-blue.svg)](https://php.net)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
