@@ -1,0 +1,196 @@
+name: 📊 Code Coverage
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    name: 📈 Test Coverage
+    
+    steps:
+    - name: 🔄 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🐘 Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.2
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+        coverage: xdebug
+
+    - name: 📦 Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.composer/cache/files
+        key: dependencies-php-8.2-composer-${{ hashFiles('composer.json') }}
+
+    - name: 🚀 Install Composer dependencies
+      run: composer install --prefer-dist --no-interaction --no-progress
+
+    - name: 📁 Create SQLite database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+
+    - name: 🔑 Generate application key
+      run: php artisan key:generate --ansi
+
+    - name: 🗃️ Run database migrations
+      run: php artisan migrate --force
+
+    - name: 🧪 Run tests with coverage
+      run: ./vendor/bin/pest --coverage --coverage-clover=coverage.xml --coverage-html=coverage-html --coverage-text
+
+    - name: 📊 Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+
+    - name: 📈 Upload coverage artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: coverage-html/
+        retention-days: 7
+
+    - name: 📊 Coverage Summary
+      run: |
+        echo "## 📊 Test Coverage Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 📈 Coverage Report" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Extract coverage percentage from XML
+        if [ -f coverage.xml ]; then
+          COVERAGE=$(grep -oP 'line-rate="\K[^"]*' coverage.xml | head -1)
+          COVERAGE_PERCENT=$(echo "$COVERAGE * 100" | bc -l | cut -d. -f1)
+          echo "**Overall Coverage: ${COVERAGE_PERCENT}%**" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 🧪 Test Results" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        ./vendor/bin/pest --coverage --coverage-text | grep -E "(Tests:|Assertions:|Time:|Memory:)" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+  metrics:
+    runs-on: ubuntu-latest
+    name: 📏 Code Metrics
+    
+    steps:
+    - name: 🔄 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🐘 Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.2
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+
+    - name: 📦 Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.composer/cache/files
+        key: dependencies-php-8.2-composer-${{ hashFiles('composer.json') }}
+
+    - name: 🚀 Install Composer dependencies
+      run: composer install --prefer-dist --no-interaction --no-progress
+
+    - name: 📊 Generate metrics
+      run: |
+        echo "## 📏 Code Metrics" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Count lines of code
+        echo "### 📈 Lines of Code" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        find app/ -name "*.php" -exec wc -l {} + | tail -1 | awk '{print "App: " $1 " lines"}' >> $GITHUB_STEP_SUMMARY
+        find tests/ -name "*.php" -exec wc -l {} + | tail -1 | awk '{print "Tests: " $1 " lines"}' >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        
+        # Count files
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 📁 File Count" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        find app/ -name "*.php" | wc -l | awk '{print "App files: " $1}' >> $GITHUB_STEP_SUMMARY
+        find tests/ -name "*.php" | wc -l | awk '{print "Test files: " $1}' >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        
+        # Test ratio
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 🧪 Test Ratio" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        APP_FILES=$(find app/ -name "*.php" | wc -l)
+        TEST_FILES=$(find tests/ -name "*.php" | wc -l)
+        if [ $APP_FILES -gt 0 ]; then
+          RATIO=$(echo "scale=2; $TEST_FILES / $APP_FILES" | bc)
+          echo "Test/App ratio: $RATIO" >> $GITHUB_STEP_SUMMARY
+        fi
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+  performance:
+    runs-on: ubuntu-latest
+    name: ⚡ Performance Check
+    
+    steps:
+    - name: 🔄 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🐘 Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.2
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+
+    - name: 📦 Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.composer/cache/files
+        key: dependencies-php-8.2-composer-${{ hashFiles('composer.json') }}
+
+    - name: 🚀 Install Composer dependencies
+      run: composer install --prefer-dist --no-interaction --no-progress
+
+    - name: 📁 Create SQLite database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+
+    - name: 🔑 Generate application key
+      run: php artisan key:generate --ansi
+
+    - name: 🗃️ Run database migrations
+      run: php artisan migrate --force
+
+    - name: ⚡ Performance test
+      run: |
+        echo "## ⚡ Performance Metrics" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Test execution time
+        echo "### 🧪 Test Execution Time" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        
+        start_time=$(date +%s)
+        ./vendor/bin/pest --colors=never
+        end_time=$(date +%s)
+        
+        execution_time=$((end_time - start_time))
+        echo "Test suite execution time: ${execution_time}s" >> $GITHUB_STEP_SUMMARY
+        
+        if [ $execution_time -gt 60 ]; then
+          echo "⚠️  Test suite is slow (>${execution_time}s)" >> $GITHUB_STEP_SUMMARY
+        elif [ $execution_time -gt 30 ]; then
+          echo "🟡 Test suite is moderate (${execution_time}s)" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "✅ Test suite is fast (${execution_time}s)" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
