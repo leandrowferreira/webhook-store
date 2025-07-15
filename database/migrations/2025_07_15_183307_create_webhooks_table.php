@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('origin')->nullable();
             $table->integer('content_length')->nullable();
             $table->timestamps();
-            
+
             $table->index(['created_at']);
             $table->index(['method']);
             $table->index(['ip_address']);

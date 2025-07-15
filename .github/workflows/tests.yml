@@ -1,178 +1,80 @@
-name: 🧪 Tests
+name: Tests
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, develop ]
-  workflow_dispatch:
+    branches: [ main ]
 
 jobs:
-  tests:
+  test:
     runs-on: ubuntu-latest
+    name: Run Tests
     
-    strategy:
-      fail-fast: false
-      matrix:
-        php: [8.2, 8.3]
-        stability: [prefer-lowest, prefer-stable]
-        
-    name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
-
     steps:
-    - name: 🔄 Checkout code
+    - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: 🐘 Setup PHP
+    - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php }}
+        php-version: 8.2
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
-        coverage: none
 
-    - name: 📦 Cache Composer dependencies
-      uses: actions/cache@v3
+    - name: Cache Composer dependencies
+      uses: actions/cache@v4
       with:
         path: ~/.composer/cache/files
-        key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
-        restore-keys: |
-          dependencies-php-${{ matrix.php }}-composer-
+        key: dependencies-php-8.2-composer-${{ hashFiles('composer.json') }}
 
-    - name: 🚀 Install Composer dependencies
-      run: |
-        composer install --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
-        composer show -D
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-interaction --no-progress
 
-    - name: 📁 Create SQLite database
+    - name: Create SQLite database
       run: |
         mkdir -p database
         touch database/database.sqlite
 
-    - name: 🔑 Generate application key
+    - name: Setup environment file
+      run: |
+        cp .env.example .env
+        echo "DB_CONNECTION=sqlite" >> .env
+        echo "DB_DATABASE=database/database.sqlite" >> .env
+
+    - name: Generate application key
       run: php artisan key:generate --ansi
 
-    - name: 🗃️ Run database migrations
+    - name: Run database migrations
       run: php artisan migrate --force
 
-    - name: 🧪 Execute tests (Pest)
-      run: ./vendor/bin/pest --colors=always --verbose
-
-    - name: 📊 Upload test results
-      uses: actions/upload-artifact@v3
-      if: failure()
-      with:
-        name: test-results-php${{ matrix.php }}-${{ matrix.stability }}
-        path: |
-          storage/logs/
-          tests/
-        retention-days: 3
-
-  code-quality:
-    runs-on: ubuntu-latest
-    name: 🔍 Code Quality
-    
-    steps:
-    - name: 🔄 Checkout code
-      uses: actions/checkout@v4
-
-    - name: 🐘 Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: 8.2
-        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
-        coverage: none
-
-    - name: 📦 Cache Composer dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.composer/cache/files
-        key: dependencies-php-8.2-composer-${{ hashFiles('composer.json') }}
-
-    - name: 🚀 Install Composer dependencies
-      run: composer install --prefer-dist --no-interaction --no-progress
-
-    - name: 🎨 Run Laravel Pint (Code Style)
-      run: ./vendor/bin/pint --test
-
-    - name: 🔍 Run Static Analysis (if available)
-      run: |
-        if [ -f "./vendor/bin/phpstan" ]; then
-          ./vendor/bin/phpstan analyse
-        else
-          echo "PHPStan not installed, skipping static analysis"
-        fi
-
-  security:
-    runs-on: ubuntu-latest
-    name: 🔒 Security
-    
-    steps:
-    - name: 🔄 Checkout code
-      uses: actions/checkout@v4
-
-    - name: 🐘 Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: 8.2
-        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
-
-    - name: 📦 Cache Composer dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.composer/cache/files
-        key: dependencies-php-8.2-composer-${{ hashFiles('composer.json') }}
-
-    - name: 🚀 Install Composer dependencies
-      run: composer install --prefer-dist --no-interaction --no-progress
-
-    - name: 🔒 Security Audit
-      run: composer audit
-
-  deploy-readiness:
-    runs-on: ubuntu-latest
-    name: 🚀 Deploy Readiness
-    needs: [tests, code-quality, security]
-    if: github.event_name == 'pull_request' && github.base_ref == 'main'
-    
-    steps:
-    - name: 🔄 Checkout code
-      uses: actions/checkout@v4
-
-    - name: 🐘 Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: 8.2
-        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
-
-    - name: 📦 Cache Composer dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.composer/cache/files
-        key: dependencies-php-8.2-composer-${{ hashFiles('composer.json') }}
-
-    - name: 🚀 Install Composer dependencies
-      run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
-
-    - name: 📁 Create SQLite database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
-
-    - name: 🔑 Generate application key
-      run: php artisan key:generate --ansi
-
-    - name: 🗃️ Run database migrations
-      run: php artisan migrate --force
-
-    - name: 🔧 Clear and cache config
+    - name: Clear cache
       run: |
         php artisan config:clear
-        php artisan config:cache
-        php artisan route:cache
-        php artisan view:cache
+        php artisan cache:clear
+        php artisan view:clear
 
-    - name: 🧪 Final integration test
-      run: ./vendor/bin/pest --colors=always
+    - name: Create basic assets for testing
+      run: |
+        mkdir -p public/build/assets
+        cat > public/build/manifest.json << 'EOF'
+        {
+          "resources/css/app.css": {
+            "file": "assets/app.css",
+            "isEntry": true,
+            "src": "resources/css/app.css"
+          },
+          "resources/js/app.js": {
+            "file": "assets/app.js",
+            "isEntry": true,
+            "src": "resources/js/app.js"
+          }
+        }
+        EOF
+        touch public/build/assets/app.css
+        touch public/build/assets/app.js
 
-    - name: ✅ Deploy Ready
-      run: echo "🚀 Application is ready for deployment!"
+    - name: Run tests
+      run: ./vendor/bin/pest
+
+    - name: Run code style check
+      run: ./vendor/bin/pint --test

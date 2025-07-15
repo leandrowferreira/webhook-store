@@ -38,12 +38,12 @@ class WebhookController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        
+
         // Validate per_page parameter
-        if (!in_array($perPage, [10, 25, 50, 100])) {
+        if (! in_array($perPage, [10, 25, 50, 100])) {
             $perPage = 10;
         }
-        
+
         $webhooks = Webhook::latest()
             ->paginate($perPage)
             ->withQueryString(); // Preserve query parameters in pagination links

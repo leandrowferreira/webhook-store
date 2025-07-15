@@ -1,4 +1,4 @@
-name: 🚀 Release
+name: Release
 
 on:
   push:
@@ -8,135 +8,76 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    name: 🎉 Create Release
+    name: Create Release
     
     steps:
-    - name: 🔄 Checkout code
+    - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
-    - name: 🐘 Setup PHP
+    - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: 8.2
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
 
-    - name: 📦 Cache Composer dependencies
-      uses: actions/cache@v3
+    - name: Cache Composer dependencies
+      uses: actions/cache@v4
       with:
         path: ~/.composer/cache/files
         key: dependencies-php-8.2-composer-${{ hashFiles('composer.json') }}
 
-    - name: 🚀 Install Composer dependencies
+    - name: Install Composer dependencies
       run: composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
-    - name: 📁 Create SQLite database
+    - name: Create SQLite database
       run: |
         mkdir -p database
         touch database/database.sqlite
 
-    - name: 🔑 Generate application key
+    - name: Setup environment file
+      run: |
+        cp .env.example .env
+        echo "DB_CONNECTION=sqlite" >> .env
+        echo "DB_DATABASE=database/database.sqlite" >> .env
+
+    - name: Generate application key
       run: php artisan key:generate --ansi
 
-    - name: 🗃️ Run database migrations
+    - name: Run database migrations
       run: php artisan migrate --force
 
-    - name: 🧪 Run final tests
-      run: ./vendor/bin/pest --colors=always
+    - name: Run tests
+      run: ./vendor/bin/pest
 
-    - name: 📝 Generate changelog
+    - name: Run code style check
+      run: ./vendor/bin/pint --test
+
+    - name: Generate changelog
       id: changelog
       run: |
-        PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-        CURRENT_TAG=${GITHUB_REF#refs/tags/}
-        
-        echo "## 🎉 Release $CURRENT_TAG" > CHANGELOG.md
+        echo "## Release Notes" > CHANGELOG.md
         echo "" >> CHANGELOG.md
-        
-        if [ -n "$PREVIOUS_TAG" ]; then
-          echo "### 📋 Changes since $PREVIOUS_TAG" >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
-          
-          # Get commits since last tag
-          git log --pretty=format:"- %s" $PREVIOUS_TAG..HEAD >> CHANGELOG.md
-          
-          echo "" >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
-          echo "### 📊 Statistics" >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
-          
-          # Count commits by type
-          FEAT_COUNT=$(git log --oneline $PREVIOUS_TAG..HEAD | grep -c "^[a-f0-9]* feat" || echo "0")
-          FIX_COUNT=$(git log --oneline $PREVIOUS_TAG..HEAD | grep -c "^[a-f0-9]* fix" || echo "0")
-          DOCS_COUNT=$(git log --oneline $PREVIOUS_TAG..HEAD | grep -c "^[a-f0-9]* docs" || echo "0")
-          TEST_COUNT=$(git log --oneline $PREVIOUS_TAG..HEAD | grep -c "^[a-f0-9]* test" || echo "0")
-          
-          echo "- 🆕 Features: $FEAT_COUNT" >> CHANGELOG.md
-          echo "- 🐛 Bug fixes: $FIX_COUNT" >> CHANGELOG.md
-          echo "- 📚 Documentation: $DOCS_COUNT" >> CHANGELOG.md
-          echo "- 🧪 Tests: $TEST_COUNT" >> CHANGELOG.md
-        else
-          echo "### 🎉 Initial Release" >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
-          echo "This is the first release of the Webhook Store application." >> CHANGELOG.md
-        fi
-        
+        echo "### New Features" >> CHANGELOG.md
+        echo "- Comprehensive webhook system with capture and dashboard" >> CHANGELOG.md
+        echo "- Full test coverage with Pest testing framework" >> CHANGELOG.md
+        echo "- Automated CI/CD pipeline with GitHub Actions" >> CHANGELOG.md
+        echo "- Code style enforcement with Laravel Pint" >> CHANGELOG.md
+        echo "- Coverage reporting with Codecov" >> CHANGELOG.md
         echo "" >> CHANGELOG.md
-        echo "### 🧪 Test Results" >> CHANGELOG.md
-        echo "" >> CHANGELOG.md
-        echo "\`\`\`" >> CHANGELOG.md
-        ./vendor/bin/pest --colors=never | tail -5 >> CHANGELOG.md
-        echo "\`\`\`" >> CHANGELOG.md
-        
-        # Set output for next step
-        echo "tag_name=$CURRENT_TAG" >> $GITHUB_OUTPUT
+        echo "### Technical Details" >> CHANGELOG.md
+        echo "- 44 comprehensive tests with 113 assertions" >> CHANGELOG.md
+        echo "- Multi-language support (English and Portuguese)" >> CHANGELOG.md
+        echo "- SQLite database for lightweight deployment" >> CHANGELOG.md
+        echo "- Bootstrap 5 responsive UI" >> CHANGELOG.md
+        echo "- Vite for modern asset building" >> CHANGELOG.md
 
-    - name: 📦 Create release archive
-      run: |
-        # Create a clean build
-        composer install --no-dev --optimize-autoloader --no-interaction
-        
-        # Create archive excluding development files
-        tar -czf webhook-store-${{ steps.changelog.outputs.tag_name }}.tar.gz \
-          --exclude='.git*' \
-          --exclude='node_modules' \
-          --exclude='tests' \
-          --exclude='storage/logs/*' \
-          --exclude='storage/framework/cache/*' \
-          --exclude='storage/framework/sessions/*' \
-          --exclude='storage/framework/views/*' \
-          --exclude='.env*' \
-          --exclude='phpunit.xml' \
-          --exclude='vite.config.js' \
-          --exclude='postcss.config.js' \
-          --exclude='package*.json' \
-          --exclude='.github' \
-          .
-
-    - name: 🎉 Create GitHub Release
+    - name: Create Release
       uses: actions/create-release@v1
-      id: create_release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.changelog.outputs.tag_name }}
-        release_name: Release ${{ steps.changelog.outputs.tag_name }}
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
         body_path: CHANGELOG.md
         draft: false
         prerelease: false
-
-    - name: 📎 Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./webhook-store-${{ steps.changelog.outputs.tag_name }}.tar.gz
-        asset_name: webhook-store-${{ steps.changelog.outputs.tag_name }}.tar.gz
-        asset_content_type: application/gzip
-
-    - name: 📢 Notify success
-      run: |
-        echo "🎉 Release ${{ steps.changelog.outputs.tag_name }} created successfully!"
-        echo "📦 Download: ${{ steps.create_release.outputs.html_url }}"

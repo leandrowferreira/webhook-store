@@ -13,10 +13,10 @@ class WebhookFactory extends Factory
     {
         $methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
         $contentTypes = ['application/json', 'application/x-www-form-urlencoded', 'text/plain', null];
-        
+
         return [
             'method' => $this->faker->randomElement($methods),
-            'url' => $this->faker->url() . '/webhook',
+            'url' => $this->faker->url().'/webhook',
             'headers' => [
                 'host' => [$this->faker->domainName()],
                 'user-agent' => [$this->faker->userAgent()],
@@ -34,7 +34,7 @@ class WebhookFactory extends Factory
                     'id' => $this->faker->uuid(),
                     'type' => $this->faker->word(),
                     'value' => $this->faker->randomFloat(2, 0, 1000),
-                ]
+                ],
             ]) : '',
             'content_type' => $this->faker->randomElement($contentTypes),
             'user_agent' => $this->faker->userAgent(),
@@ -71,7 +71,7 @@ class WebhookFactory extends Factory
     /**
      * Indicate that the webhook has JSON body.
      */
-    public function withJsonBody(array $data = null): static
+    public function withJsonBody(?array $data = null): static
     {
         $jsonData = $data ?? [
             'message' => $this->faker->sentence(),
@@ -80,7 +80,7 @@ class WebhookFactory extends Factory
                 'id' => $this->faker->uuid(),
                 'name' => $this->faker->name(),
                 'email' => $this->faker->email(),
-            ]
+            ],
         ];
 
         return $this->state(fn (array $attributes) => [
@@ -111,7 +111,7 @@ class WebhookFactory extends Factory
     /**
      * Indicate that the webhook has query parameters.
      */
-    public function withQueryParams(array $params = null): static
+    public function withQueryParams(?array $params = null): static
     {
         $queryParams = $params ?? [
             'filter' => $this->faker->word(),
@@ -121,7 +121,7 @@ class WebhookFactory extends Factory
 
         return $this->state(fn (array $attributes) => [
             'query_parameters' => $queryParams,
-            'url' => $attributes['url'] . '?' . http_build_query($queryParams),
+            'url' => $attributes['url'].'?'.http_build_query($queryParams),
         ]);
     }
 
