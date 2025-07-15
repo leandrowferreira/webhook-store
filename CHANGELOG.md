@@ -5,6 +5,32 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 e este projeto segue [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-07-15
+
+### 🧪 Adicionado
+- **Suite de Testes Completa**: 44 testes com framework Pest (113 assertions)
+- **Pipeline CI/CD**: Workflows automatizados com GitHub Actions
+- **Cobertura de Código**: Relatórios detalhados com Codecov
+- **Qualidade de Código**: Verificação automática com Laravel Pint
+- **Badges Profissionais**: Status em tempo real no README
+
+### 🔧 Melhorado
+- **Infraestrutura de Testes**: Cobertura completa de modelos, controllers e features
+- **Documentação**: README aprimorado com badges de status
+- **Qualidade**: Aplicação automática de padrões de código
+- **DevOps**: Pipeline completo de desenvolvimento e deploy
+
+### 🐛 Corrigido
+- **Testes de Localização**: Robustos para ambiente CI
+- **Configuração Vite**: Compatibilidade com CI/CD
+- **Estilo de Código**: Todas as violações do Laravel Pint corrigidas
+
+### 📊 Estatísticas
+- **44 testes** cobrindo toda a funcionalidade
+- **113 assertions** validando comportamento
+- **3 workflows** automatizados (tests, coverage, release)
+- **100% compatibilidade** com Laravel Pint
+
 ## [1.0.0] - 2025-07-15
 
 ### 🚀 Primeira Release - Sistema Completo
