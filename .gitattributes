@@ -1,11 +1,60 @@
+# Auto detect text files and perform LF normalization
 * text=auto eol=lf
 
-*.blade.php diff=html
-*.css diff=css
-*.html diff=html
-*.md diff=markdown
-*.php diff=php
+# Source code
+*.php text eol=lf diff=php
+*.js text eol=lf
+*.css text eol=lf diff=css
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf diff=markdown
+*.xml text eol=lf
+*.sql text eol=lf
 
+# Templates
+*.blade.php text eol=lf diff=html
+
+# Configuration files
+.env* text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+composer.json text eol=lf
+composer.lock text eol=lf
+package.json text eol=lf
+package-lock.json text eol=lf
+phpunit.xml text eol=lf
+vite.config.js text eol=lf
+postcss.config.js text eol=lf
+README.md text eol=lf
+artisan text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.ttf binary
+*.eot binary
+*.woff binary
+*.woff2 binary
+*.zip binary
+*.tar binary
+*.gz binary
+
+# Export ignore
 /.github export-ignore
 CHANGELOG.md export-ignore
+tests/ export-ignore
+phpunit.xml export-ignore
+codecov.yml export-ignore
+.env.* export-ignore
+
+# Linguist overrides
+*.blade.php linguist-language=PHP
+vendor/* linguist-vendored
+public/build/* linguist-generated
+storage/* linguist-generated
+bootstrap/cache/* linguist-generated
 .styleci.yml export-ignore

@@ -1,0 +1,51 @@
+codecov:
+  require_ci_to_pass: yes
+  notify:
+    wait_for_ci: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+  
+  status:
+    project:
+      default:
+        target: 80%
+        threshold: 2%
+    patch:
+      default:
+        target: 85%
+        threshold: 5%
+
+parsers:
+  gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
+
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+  require_changes: no
+
+ignore:
+  - "bootstrap/"
+  - "config/"
+  - "database/migrations/"
+  - "database/seeders/"
+  - "resources/"
+  - "storage/"
+  - "vendor/"
+  - "tests/"
+  - "public/"
+  - "lang/"
+  - "routes/console.php"
+
+flags:
+  unittests:
+    paths:
+      - app/
+    carryforward: false
