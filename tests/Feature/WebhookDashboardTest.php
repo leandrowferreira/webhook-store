@@ -14,7 +14,7 @@ describe('Webhook Dashboard', function () {
             'body' => json_encode(['message' => 'Test POST']),
             'content_type' => 'application/json',
             'ip_address' => '192.168.1.1',
-            'created_at' => now()->subMinutes(5)
+            'created_at' => now()->subMinutes(5),
         ]);
 
         Webhook::factory()->create([
@@ -24,7 +24,7 @@ describe('Webhook Dashboard', function () {
             'body' => '',
             'content_type' => null,
             'ip_address' => '192.168.1.2',
-            'created_at' => now()->subMinutes(10)
+            'created_at' => now()->subMinutes(10),
         ]);
 
         Webhook::factory()->create([
@@ -33,7 +33,7 @@ describe('Webhook Dashboard', function () {
             'body' => json_encode(['updated' => true]),
             'content_type' => 'application/json',
             'ip_address' => '192.168.1.3',
-            'created_at' => now()->subMinutes(15)
+            'created_at' => now()->subMinutes(15),
         ]);
     });
 
@@ -64,7 +64,7 @@ describe('Webhook Dashboard', function () {
 
         $response->assertStatus(200);
         $webhooks = $response->viewData('webhooks');
-        
+
         expect($webhooks->count())->toBe(3);
         expect($webhooks->first()->method)->toBe('POST'); // Mais recente
         expect($webhooks->last()->method)->toBe('PUT'); // Mais antigo
@@ -78,7 +78,7 @@ describe('Webhook Dashboard', function () {
 
         $response->assertStatus(200);
         $webhooks = $response->viewData('webhooks');
-        
+
         expect($webhooks->count())->toBe(10);
         expect($webhooks->hasPages())->toBeTrue();
     });
@@ -88,7 +88,7 @@ describe('Webhook Dashboard', function () {
 
         $response->assertStatus(200);
         $webhooks = $response->viewData('webhooks');
-        
+
         // Deve voltar ao padrão (10) se valor inválido
         expect($webhooks->perPage())->toBe(10);
     });
@@ -100,7 +100,7 @@ describe('Webhook Dashboard', function () {
 
         $response->assertStatus(200);
         $webhooks = $response->viewData('webhooks');
-        
+
         expect($webhooks->appends(request()->query()))->not->toBeNull();
     });
 
@@ -121,6 +121,9 @@ describe('Webhook Dashboard', function () {
     });
 
     it('displays translated content', function () {
+        // Set locale to pt_BR for this test
+        app()->setLocale('pt_BR');
+
         $response = $this->get('/webhooks');
 
         $response->assertStatus(200);

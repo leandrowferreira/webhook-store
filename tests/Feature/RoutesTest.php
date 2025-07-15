@@ -24,7 +24,7 @@ describe('Application Routes', function () {
 
     it('accepts all HTTP methods on webhook endpoint', function () {
         $methods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'];
-        
+
         foreach ($methods as $method) {
             $response = $this->call($method, '/webhook', ['test' => 'data']);
             expect($response->getStatusCode())->toBe(200);

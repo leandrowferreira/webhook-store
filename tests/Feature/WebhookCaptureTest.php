@@ -10,7 +10,7 @@ describe('Webhook Capture', function () {
         $response = $this->withoutMiddleware()->postJson('/webhook', [
             'message' => 'Hello World!',
             'timestamp' => '2025-07-15T10:30:00Z',
-            'data' => ['key' => 'value']
+            'data' => ['key' => 'value'],
         ]);
 
         $response->assertStatus(200);
@@ -19,7 +19,7 @@ describe('Webhook Capture', function () {
         ]);
 
         expect(Webhook::count())->toBe(1);
-        
+
         $webhook = Webhook::first();
         expect($webhook->method)->toBe('POST');
         expect($webhook->url)->toContain('/webhook');
@@ -32,12 +32,12 @@ describe('Webhook Capture', function () {
         $response = $this->withoutMiddleware()->get('/webhook?param1=value1&param2=value2');
 
         $response->assertStatus(200);
-        
+
         $webhook = Webhook::first();
         expect($webhook->method)->toBe('GET');
         expect($webhook->query_parameters)->toBe([
             'param1' => 'value1',
-            'param2' => 'value2'
+            'param2' => 'value2',
         ]);
         expect($webhook->body)->toBeEmpty();
     });
@@ -46,7 +46,7 @@ describe('Webhook Capture', function () {
         $response = $this->withoutMiddleware()->putJson('/webhook', ['updated' => true]);
 
         $response->assertStatus(200);
-        
+
         $webhook = Webhook::first();
         expect($webhook->method)->toBe('PUT');
         expect($webhook->body)->toContain('updated');
@@ -56,7 +56,7 @@ describe('Webhook Capture', function () {
         $response = $this->withoutMiddleware()->delete('/webhook');
 
         $response->assertStatus(200);
-        
+
         $webhook = Webhook::first();
         expect($webhook->method)->toBe('DELETE');
     });
@@ -65,7 +65,7 @@ describe('Webhook Capture', function () {
         $response = $this->withoutMiddleware()->patchJson('/webhook', ['patched' => true]);
 
         $response->assertStatus(200);
-        
+
         $webhook = Webhook::first();
         expect($webhook->method)->toBe('PATCH');
     });
@@ -74,11 +74,11 @@ describe('Webhook Capture', function () {
         $response = $this->withoutMiddleware()->withHeaders([
             'X-Custom-Header' => 'custom-value',
             'User-Agent' => 'Test/1.0',
-            'Origin' => 'https://example.com'
+            'Origin' => 'https://example.com',
         ])->postJson('/webhook', ['test' => 'data']);
 
         $response->assertStatus(200);
-        
+
         $webhook = Webhook::first();
         expect($webhook->headers)->toHaveKey('x-custom-header');
         expect($webhook->headers['x-custom-header'])->toContain('custom-value');
@@ -90,15 +90,15 @@ describe('Webhook Capture', function () {
         $data = [
             'user' => [
                 'name' => 'John Doe',
-                'email' => 'john@example.com'
+                'email' => 'john@example.com',
             ],
-            'action' => 'created'
+            'action' => 'created',
         ];
 
         $response = $this->withoutMiddleware()->postJson('/webhook', $data);
 
         $response->assertStatus(200);
-        
+
         $webhook = Webhook::first();
         $bodyData = json_decode($webhook->body, true);
         expect($bodyData['user']['name'])->toBe('John Doe');
@@ -112,7 +112,7 @@ describe('Webhook Capture', function () {
         $response->assertJsonStructure([
             'message',
             'id',
-            'timestamp'
+            'timestamp',
         ]);
 
         $webhook = Webhook::first();

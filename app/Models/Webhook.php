@@ -34,9 +34,10 @@ class Webhook extends Model
         if (empty($this->body)) {
             return 'Empty body';
         }
-        
+
         $preview = substr($this->body, 0, 100);
-        return strlen($this->body) > 100 ? $preview . '...' : $preview;
+
+        return strlen($this->body) > 100 ? $preview.'...' : $preview;
     }
 
     public function getFormattedBodyAttribute()
@@ -54,17 +55,18 @@ class Webhook extends Model
         // If not JSON, return as is
         return $this->body;
     }
-    
+
     public function getCleanUrlAttribute()
     {
         $parsed = parse_url($this->url);
         $path = $parsed['path'] ?? '/';
-        
-        if (!empty($this->query_parameters)) {
+
+        if (! empty($this->query_parameters)) {
             $queryString = http_build_query($this->query_parameters);
-            return $path . '?' . $queryString;
+
+            return $path.'?'.$queryString;
         }
-        
+
         return $path;
     }
 }
