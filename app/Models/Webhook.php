@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Webhook extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'method',
@@ -63,8 +64,11 @@ class Webhook extends Model
 
         if (! empty($this->query_parameters)) {
             $queryString = http_build_query($this->query_parameters);
+            $path .= '?'.$queryString;
+        }
 
-            return $path.'?'.$queryString;
+        if (isset($parsed['fragment'])) {
+            $path .= '#'.$parsed['fragment'];
         }
 
         return $path;

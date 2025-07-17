@@ -28,6 +28,7 @@ describe('Webhook Model', function () {
             'query_parameters' => 'array',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
         ]);
     });
 
@@ -65,6 +66,11 @@ describe('Webhook Model', function () {
         expect($webhook->formatted_body)->toBe('plain text body');
     });
 
+    it('handles invalid JSON in formatted_body', function () {
+        $webhook = new Webhook(['body' => '{"invalid": json}']);
+        expect($webhook->formatted_body)->toBe('{"invalid": json}');
+    });
+
     it('handles empty body in formatting', function () {
         $webhook = new Webhook(['body' => '']);
 
@@ -80,6 +86,15 @@ describe('Webhook Model', function () {
         $cleanUrl = $webhook->clean_url;
 
         expect($cleanUrl)->toBe('/webhook?param1=value1&param2=value2');
+    });
+
+    it('handles URL with only parameters', function () {
+        $webhook = new Webhook([
+            'url' => 'http://localhost:8000?param=value',
+            'query_parameters' => ['param' => 'value'],
+        ]);
+
+        expect($webhook->clean_url)->toBe('/?param=value');
     });
 
     it('handles URL without query parameters', function () {
@@ -98,6 +113,15 @@ describe('Webhook Model', function () {
         ]);
 
         expect($webhook->clean_url)->toBe('/');
+    });
+
+    it('handles URL with fragments', function () {
+        $webhook = new Webhook([
+            'url' => 'http://localhost:8000/webhook#section',
+            'query_parameters' => [],
+        ]);
+
+        expect($webhook->clean_url)->toBe('/webhook#section');
     });
 
     it('preserves array data in headers', function () {
@@ -139,4 +163,5 @@ describe('Webhook Model', function () {
         expect($webhook->query_parameters)->toBe($queryParams);
         expect($webhook->query_parameters['array_param'])->toBe(['item1', 'item2']);
     });
+
 });

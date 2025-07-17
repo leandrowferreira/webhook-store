@@ -12,6 +12,13 @@
             </div>
         </div>
 
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         @if($webhooks->count() > 0)
             <div class="card">
                 <div class="card-body p-0">
@@ -142,7 +149,7 @@
             </div>
             <div class="col-md-6 text-md-end">
                 <p class="text-muted mb-0">
-                    {{ __('Developed with') }} <span class="text-danger">♥</span> {{ __('by') }} <strong>GitHub Copilot</strong>
+                    {{ __('Developed with') }} <span class="text-danger">♥</span>
                 </p>
             </div>
         </div>

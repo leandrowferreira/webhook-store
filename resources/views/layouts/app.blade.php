@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', __('Webhook Store'))</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('build/assets/app-DlRbCcnX.css') }}">
+    <script src="{{ asset('build/assets/app-g4LUSfEO.js') }}" type="module"></script>
 </head>
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -24,5 +25,26 @@
     <main class="container mt-4">
         @yield('content')
     </main>
+
+    <!-- Footer -->
+    <footer class="mt-5 py-4 border-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">
+                        <strong>{{ __('Webhook Store') }}</strong> - {{ __('Development webhook capture system') }}
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted mb-0">
+                        {{ __('Developed with') }} <span class="text-danger">♥</span>
+                        {{ __('by') }}
+                        Leandro Ferreira
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
