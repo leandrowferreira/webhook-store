@@ -12,10 +12,16 @@
                 </svg>
                 {{ __('Back') }}
             </a>
-            <div>
+            <div class="flex-grow-1">
                 <h1 class="h2 mb-1">{{ __('Webhook Details') }}</h1>
                 <p class="text-muted">{{ __('Complete request information') }} {{ $webhook->created_at->format('d/m/Y H:i:s') }}</p>
             </div>
+            <button type="button" class="btn btn-outline-danger ms-auto" data-bs-toggle="modal" data-bs-target="#deleteWebhookModal">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" class="me-1">
+                    <path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zm2-10h8v10H8V9zm7-5V4H9v1H4v2h16V5h-5z"/>
+                </svg>
+                {{ __('Delete') }}
+            </button>
         </div>
 
         <div class="row">
@@ -101,6 +107,29 @@
                             <p class="text-muted fst-italic">{{ __('No body content') }}</p>
                         @endif
                     </div>
+                </div>
+
+                <!-- Delete Modal -->
+                <div class="modal fade" id="deleteWebhookModal" tabindex="-1" aria-labelledby="deleteWebhookModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="deleteWebhookModalLabel">{{ __('Confirm Deletion') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>{{ __('Are you sure you want to delete this webhook? This action cannot be undone.') }}</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                        <form method="POST" action="{{ route('webhooks.destroy', $webhook) }}" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">{{ __('Delete') }}</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
