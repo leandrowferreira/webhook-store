@@ -12,12 +12,15 @@ class WebhookController extends Controller
      */
     public function receive(Request $request)
     {
+        $rawBody = $request->getContent();
+        // Garante que o corpo está em UTF-8
+        $body = mb_convert_encoding($rawBody, 'UTF-8', 'auto');
         $webhook = Webhook::create([
             'method' => $request->getMethod(),
             'url' => $request->fullUrl(),
             'headers' => $request->headers->all(),
             'query_parameters' => $request->query->all(),
-            'body' => $request->getContent(),
+            'body' => $body,
             'content_type' => $request->header('Content-Type'),
             'user_agent' => $request->header('User-Agent'),
             'ip_address' => $request->ip(),
@@ -57,5 +60,15 @@ class WebhookController extends Controller
     public function show(Webhook $webhook)
     {
         return view('webhooks.show', compact('webhook'));
+    }
+
+    /**
+     * Delete a webhook
+     */
+    public function destroy(Webhook $webhook)
+    {
+        $webhook->delete();
+        return redirect()->route('webhooks.index')
+            ->with('success', __('Webhook deleted successfully.'));
     }
 }

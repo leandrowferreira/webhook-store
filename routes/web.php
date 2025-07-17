@@ -14,4 +14,4 @@ Route::any('/webhook', [WebhookController::class, 'receive'])->name('webhook.rec
 Route::get('/dashboard', [WebhookController::class, 'index'])->name('dashboard');
 
 // Rotas RESTful para webhooks
-Route::resource('/webhooks', WebhookController::class)->only(['index', 'show']);
+Route::resource('/webhooks', WebhookController::class)->only(['index', 'show', 'destroy']);
