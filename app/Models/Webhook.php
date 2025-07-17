@@ -48,7 +48,7 @@ class Webhook extends Model
         }
 
         // Try to decode as JSON first
-        $decoded = json_decode($this->body, true);
+        $decoded = json_decode(mb_convert_encoding($this->body, 'UTF-8', 'auto'), true);
         if (json_last_error() === JSON_ERROR_NONE) {
             return json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         }

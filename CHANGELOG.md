@@ -31,7 +31,29 @@ e este projeto segue [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **3 workflows** automatizados (tests, coverage, release)
 - **100% compatibilidade** com Laravel Pint
 
-## [1.0.0] - 2025-07-15
+
+## [1.2.0] - 2025-07-17
+
+### 🧪 Added
+- **Soft delete for webhooks**: Webhooks can now be deleted and restored (Eloquent SoftDeletes)
+- **Delete confirmation modal**: UI confirmation before deleting a webhook
+- **Visual feedback after deletion**: Success alerts and improved user experience
+- **Automated tests for deletion and restore**: Feature tests for soft delete, restore, and force delete
+
+### 🔧 Improved
+- **Build and dependencies**: Updated asset pipeline and dependencies for better reliability
+- **JSON formatting and UTF-8 charset**: Request body is now always displayed as formatted JSON with UTF-8 enforcement
+- **UTF-8 encoding in Webhook model**: `getFormattedBodyAttribute` now uses `mb_convert_encoding` to ensure correct charset handling for JSON bodies
+- **Changelog in English**: All new entries are now in English for broader accessibility
+
+### 🐛 Fixed
+- **Fragment support in URLs**: Clean URL accessor now includes fragments (e.g., #section)
+- **Edge cases in body formatting**: Handles invalid JSON and empty bodies gracefully
+
+### 📊 Stats
+- **50 tests** covering all major features
+- **129 assertions** validating behavior
+- **Full coverage** for webhook deletion and restoration
 
 ### 🚀 Primeira Release - Sistema Completo
 
