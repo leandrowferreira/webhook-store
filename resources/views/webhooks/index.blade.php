@@ -138,24 +138,6 @@
     </div>
 </div>
 
-<!-- Footer -->
-<footer class="mt-5 py-4 border-top">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <p class="text-muted mb-0">
-                    <strong>{{ __('Webhook Store') }}</strong> - {{ __('Development webhook capture system') }}
-                </p>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <p class="text-muted mb-0">
-                    {{ __('Developed with') }} <span class="text-danger">♥</span>
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
-
 <script>
 function changePerPage(perPage) {
     const url = new URL(window.location);
