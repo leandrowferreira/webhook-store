@@ -68,6 +68,7 @@ class WebhookController extends Controller
     public function destroy(Webhook $webhook)
     {
         $webhook->delete();
+
         return redirect()->route('webhooks.index')
             ->with('success', __('Webhook deleted successfully.'));
     }
