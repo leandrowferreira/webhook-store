@@ -64,8 +64,11 @@ class Webhook extends Model
 
         if (! empty($this->query_parameters)) {
             $queryString = http_build_query($this->query_parameters);
+            $path .= '?' . $queryString;
+        }
 
-            return $path.'?'.$queryString;
+        if (isset($parsed['fragment'])) {
+            $path .= '#' . $parsed['fragment'];
         }
 
         return $path;
