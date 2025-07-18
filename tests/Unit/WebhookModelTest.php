@@ -17,6 +17,8 @@ describe('Webhook Model', function () {
             'ip_address',
             'origin',
             'content_length',
+            'viewed_at',
+            'uuid',
         ]);
     });
 

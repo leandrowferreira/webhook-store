@@ -105,9 +105,9 @@ describe('Webhook Dashboard', function () {
     });
 
     it('displays webhook details correctly', function () {
-        $webhook = Webhook::first();
 
-        $response = $this->get("/webhooks/{$webhook->id}");
+        $webhook = Webhook::first();
+        $response = $this->get("/webhooks/{$webhook->uuid}");
 
         $response->assertStatus(200);
         $response->assertViewIs('webhooks.show');
