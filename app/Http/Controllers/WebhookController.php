@@ -59,6 +59,10 @@ class WebhookController extends Controller
      */
     public function show(Webhook $webhook)
     {
+        if (! $webhook->viewed_at) {
+            $webhook->update(['viewed_at' => now()]);
+        }
+
         return view('webhooks.show', compact('webhook'));
     }
 

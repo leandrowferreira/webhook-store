@@ -64,7 +64,10 @@ Um gerenciador de webhooks para desenvolvimento que captura e armazena todas as 
 
 ### 🔍 Detalhes da Requisição
 - Página detalhada para cada webhook
-- JSON formatado automaticamente
+- JSON formatado automaticamente e sempre exibido com charset UTF-8
+- Suporte a fragmentos em URLs (ex: /webhook#section)
+- Modal de confirmação para exclusão de webhooks
+- Feedback visual após exclusão (alerta de sucesso)
 - Todas as informações capturadas
 - Interface clean e profissional
 
@@ -80,6 +83,7 @@ Um gerenciador de webhooks para desenvolvimento que captura e armazena todas as 
   - PATCH → Roxo
 - Navegação intuitiva com breadcrumbs
 - Blocos de código formatados
+- Modal de confirmação para exclusão
 
 ## Instalação e Configuração
 
@@ -150,6 +154,7 @@ curl -X POST http://localhost:8000/webhook \
    - Acesse `http://localhost:8000/dashboard`
    - Você deve ver o webhook listado na tabela
    - Clique em "View Details" para ver todas as informações
+   - Teste a exclusão/restauração de webhooks e veja o feedback visual
 
 ## Localização
 

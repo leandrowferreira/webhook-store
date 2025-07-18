@@ -1,7 +1,15 @@
+
 import './bootstrap';
-
-// Import Bootstrap
 import 'bootstrap';
+import 'json-viewer-component/dist/index.js';
 
-// You can add any additional JavaScript here
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('json-viewer');
+    if (!container || !window.webhookBody) return;
+
+    const viewer = document.createElement('json-viewer');
+    viewer.textContent = JSON.stringify(JSON.parse(window.webhookBody));
+    viewer.setAttribute('counter', 'true');
+    container.appendChild(viewer);
+});

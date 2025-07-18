@@ -18,10 +18,10 @@ describe('Webhook SoftDeletes', function () {
 
         $webhook->delete();
 
-        expect(Webhook::find($webhook->id))->toBeNull();
-        expect(Webhook::withTrashed()->find($webhook->id))->not->toBeNull();
-        expect(Webhook::onlyTrashed()->find($webhook->id))->not->toBeNull();
-        expect(Webhook::withTrashed()->find($webhook->id)->deleted_at)->not->toBeNull();
+        expect(Webhook::find($webhook->uuid))->toBeNull();
+        expect(Webhook::withTrashed()->find($webhook->uuid))->not->toBeNull();
+        expect(Webhook::onlyTrashed()->find($webhook->uuid))->not->toBeNull();
+        expect(Webhook::withTrashed()->find($webhook->uuid)->deleted_at)->not->toBeNull();
     });
 
     it('restores a soft deleted webhook', function () {
@@ -34,11 +34,11 @@ describe('Webhook SoftDeletes', function () {
             'ip_address' => '127.0.0.1',
         ]);
         $webhook->delete();
-        expect(Webhook::onlyTrashed()->find($webhook->id))->not->toBeNull();
+        expect(Webhook::onlyTrashed()->find($webhook->uuid))->not->toBeNull();
         $webhook->restore();
-        expect(Webhook::find($webhook->id))->not->toBeNull();
-        expect(Webhook::onlyTrashed()->find($webhook->id))->toBeNull();
-        expect(Webhook::find($webhook->id)->deleted_at)->toBeNull();
+        expect(Webhook::find($webhook->uuid))->not->toBeNull();
+        expect(Webhook::onlyTrashed()->find($webhook->uuid))->toBeNull();
+        expect(Webhook::find($webhook->uuid)->deleted_at)->toBeNull();
     });
 
     it('force deletes a webhook', function () {
@@ -50,10 +50,10 @@ describe('Webhook SoftDeletes', function () {
             'body' => '{}',
             'ip_address' => '127.0.0.1',
         ]);
-        $id = $webhook->id;
+        $uuid = $webhook->uuid;
         $webhook->forceDelete();
-        expect(Webhook::find($id))->toBeNull();
-        expect(Webhook::withTrashed()->find($id))->toBeNull();
-        expect(Webhook::onlyTrashed()->find($id))->toBeNull();
+        expect(Webhook::find($uuid))->toBeNull();
+        expect(Webhook::withTrashed()->find($uuid))->toBeNull();
+        expect(Webhook::onlyTrashed()->find($uuid))->toBeNull();
     });
 });

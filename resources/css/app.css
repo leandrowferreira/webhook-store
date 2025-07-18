@@ -34,3 +34,15 @@
     text-overflow: ellipsis;
     max-width: 200px;
 }
+
+.card-header .chevron svg {
+    transition: transform 0.2s;
+}
+.card-header.collapsed .chevron svg {
+    transform: rotate(-90deg);
+}
+
+#json-viewer {
+  overflow-x: auto;
+  max-width: 100%;
+}
