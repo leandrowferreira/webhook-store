@@ -85,27 +85,44 @@
                 </div>
                 @endif
 
-                <!-- Headers -->
+                <!-- Request Body (Aberto por padrão, aparece primeiro) -->
                 <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">{{ __('HTTP Headers') }}</h5>
+                    <div class="card-header d-flex align-items-center justify-content-between" style="cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#bodyCollapse" aria-expanded="true" aria-controls="bodyCollapse">
+                        <span class="fw-bold text-secondary">{{ __('Request Body') }}</span>
+                        <span class="chevron transition" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </span>
                     </div>
-                    <div class="card-body">
-                        <div class="code-block">{{ json_encode($webhook->headers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</div>
+                    <div id="bodyCollapse" class="collapse show">
+                        <div class="card-body p-0">
+                            @if($webhook->body)
+                                <div id="json-viewer"></div>
+                            @else
+                            <div class="pt-3 px-3">
+                                <p class="text-muted fst-italic">{{ __('No body content') }}</p>
+                            </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
 
-                <!-- Body -->
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">{{ __('Request Body') }}</h5>
+                <!-- HTTP Headers (Fechado por padrão, aparece depois) -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex align-items-center justify-content-between" style="cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#headersCollapse" aria-expanded="false" aria-controls="headersCollapse">
+                        <span class="fw-bold text-secondary">{{ __('HTTP Headers') }}</span>
+                        <span class="chevron transition collapsed" aria-hidden="true" data-bs-toggle="collapse" data-bs-target="#headersCollapse">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </span>
                     </div>
-                    <div class="card-body">
-                        @if($webhook->body)
-                            <div class="code-block">{{ $webhook->formatted_body }}</div>
-                        @else
-                            <p class="text-muted fst-italic">{{ __('No body content') }}</p>
-                        @endif
+
+                    <div id="headersCollapse" class="collapse">
+                        <div class="card-body">
+                            <div class="code-block">{{ json_encode($webhook->headers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</div>
+                        </div>
                     </div>
                 </div>
 
@@ -135,4 +152,7 @@
         </div>
     </div>
 </div>
+<script>window.webhookBody = @json($webhook->body);</script>
 @endsection
+
+

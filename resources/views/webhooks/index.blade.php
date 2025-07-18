@@ -31,13 +31,13 @@
                                     <th>{{ __('URL') }}</th>
                                     <th>{{ __('IP Address') }}</th>
                                     <th>{{ __('Content Type') }}</th>
-                                    <th>{{ __('Body Preview') }}</th>
+                                    
                                     <th class="text-end">{{ __('Actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($webhooks as $webhook)
-                                    <tr>
+                                    <tr @if(!$webhook->viewed_at) class="table-info" @endif>
                                         <td class="text-nowrap">
                                             <small>{{ $webhook->created_at->format('Y-m-d H:i:s') }}</small>
                                         </td>
@@ -55,9 +55,7 @@
                                         <td>
                                             <small class="text-muted">{{ $webhook->content_type ?: __('Unknown') }}</small>
                                         </td>
-                                        <td>
-                                            <span class="text-truncate-custom">{{ $webhook->body_preview }}</span>
-                                        </td>
+                                        
                                         <td class="text-end">
                                             <a href="{{ route('webhooks.show', $webhook) }}" class="btn btn-sm btn-outline-primary">
                                                 {{ __('View Details') }}

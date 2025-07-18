@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', __('Webhook Store'))</title>
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DlRbCcnX.css') }}">
-    <script src="{{ asset('build/assets/app-g4LUSfEO.js') }}" type="module"></script>
+    @if(app()->environment('local'))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
+        <script src="{{ asset('build/assets/app.js') }}" type="module"></script>
+    @endif
 </head>
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
