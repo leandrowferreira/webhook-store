@@ -1,35 +1,29 @@
 # Changelog
 
-Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
+All notable changes to this project will be documented in this file.
 
-O formato é baseado em [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-e este projeto segue [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2025-07-15
+## [1.3.0] - 2025-07-17
 
-### 🧪 Adicionado
-- **Suite de Testes Completa**: 44 testes com framework Pest (113 assertions)
-- **Pipeline CI/CD**: Workflows automatizados com GitHub Actions
-- **Cobertura de Código**: Relatórios detalhados com Codecov
-- **Qualidade de Código**: Verificação automática com Laravel Pint
-- **Badges Profissionais**: Status em tempo real no README
+### 🧪 Added
+- **UUID as primary key for webhooks**: All webhooks now use a UUID instead of auto-incrementing ID
+- **Unread highlighting**: Unviewed webhooks are visually highlighted in the dashboard
+- **Light theme and horizontal scroll for JSON viewer**: Improved frontend usability and accessibility
 
-### 🔧 Melhorado
-- **Infraestrutura de Testes**: Cobertura completa de modelos, controllers e features
-- **Documentação**: README aprimorado com badges de status
-- **Qualidade**: Aplicação automática de padrões de código
-- **DevOps**: Pipeline completo de desenvolvimento e deploy
+### 🔧 Improved
+- **Test coverage**: All tests updated for UUID compatibility, including factories and feature tests
+- **Model and controller refactor**: Webhook model and controller updated for UUID and new features
+- **Cleaner migrations**: Migrations refactored for direct UUID usage and better SQLite compatibility
 
-### 🐛 Corrigido
-- **Testes de Localização**: Robustos para ambiente CI
-- **Configuração Vite**: Compatibilidade com CI/CD
-- **Estilo de Código**: Todas as violações do Laravel Pint corrigidas
+### 🐛 Fixed
+- **Test failures after UUID migration**: All failing tests fixed and now passing
+- **Edge cases in JSON viewer and dashboard**: Improved error handling and display
 
-### 📊 Estatísticas
-- **44 testes** cobrindo toda a funcionalidade
-- **113 assertions** validando comportamento
-- **3 workflows** automatizados (tests, coverage, release)
-- **100% compatibilidade** com Laravel Pint
+### 📊 Stats
+- **50+ tests** covering all major features
+- **Full compatibility** with UUID and soft deletes
 
 
 ## [1.2.0] - 2025-07-17
@@ -55,96 +49,96 @@ e este projeto segue [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **129 assertions** validating behavior
 - **Full coverage** for webhook deletion and restoration
 
-### 🚀 Primeira Release - Sistema Completo
+### 🚀 First Release - Complete System
 
-#### ✨ Adicionado
-- **Sistema de captura de webhooks** - Endpoint `/webhook` que aceita qualquer método HTTP
-- **Dashboard responsivo** - Interface Bootstrap 5 para visualização de webhooks
-- **Visualização detalhada** - Página de detalhes com informações completas da requisição
-- **Internacionalização** - Sistema completo de traduções em português brasileiro
-- **Paginação inteligente** - Controle de itens por página (10, 25, 50, 100)
-- **Formatação automática** - JSON formatado automaticamente na visualização
-- **Badges coloridos** - Identificação visual dos métodos HTTP
-- **Banco SQLite** - Armazenamento eficiente sem dependências externas
-- **Layout responsivo** - Interface adaptável para desktop e mobile
+#### ✨ Added
+- **Webhook capture system** - `/webhook` endpoint accepting any HTTP method
+- **Responsive dashboard** - Bootstrap 5 interface for viewing webhooks
+- **Detailed view** - Details page with complete request information
+- **Internationalization** - Full translation system for Brazilian Portuguese
+- **Smart pagination** - Items per page control (10, 25, 50, 100)
+- **Automatic formatting** - JSON automatically formatted in the view
+- **Colored badges** - Visual identification of HTTP methods
+- **SQLite database** - Efficient storage without external dependencies
+- **Responsive layout** - Adaptive interface for desktop and mobile
 
-#### 🛠️ Funcionalidades Técnicas
-- **Model Webhook** com accessors para formatação de dados
-- **Controller RESTful** com métodos index, show e receive
-- **Migrações estruturadas** com índices para performance
-- **Rotas organizadas** com nomes semânticos
-- **Vite integration** para build de assets
-- **Bootstrap 5** com customizações próprias
+#### 🛠️ Technical Features
+- **Webhook model** with accessors for data formatting
+- **RESTful controller** with index, show, and receive methods
+- **Structured migrations** with performance indexes
+- **Organized routes** with semantic names
+- **Vite integration** for asset build
+- **Bootstrap 5** with customizations
 
-#### 🌐 Internacionalização
-- **Tradução inline** com fallback automático
-- **Arquivo pt_BR.json** com todas as traduções
-- **Configuração padrão** para português brasileiro
-- **Sistema otimizado** sem redundância de arquivos
+#### 🌐 Internationalization
+- **Inline translation** with automatic fallback
+- **pt_BR.json file** with all translations
+- **Default configuration** for Brazilian Portuguese
+- **Optimized system** without redundant files
 
-#### 📊 Estrutura de Dados
-- **Tabela webhooks** com todos os campos necessários
-- **Índices otimizados** para performance
-- **Casts automáticos** para JSON e datetime
-- **Validação de dados** integrada
+#### 📊 Data Structure
+- **Webhooks table** with all necessary fields
+- **Optimized indexes** for performance
+- **Automatic casts** for JSON and datetime
+- **Integrated data validation**
 
-#### 🎨 Interface de Usuário
-- **Design moderno** com Bootstrap 5
-- **Hover effects** e transições suaves
-- **Código sintax highlighting** para JSON
-- **Navegação intuitiva** com breadcrumbs
-- **Responsive design** para todos os dispositivos
+#### 🎨 User Interface
+- **Modern design** with Bootstrap 5
+- **Hover effects** and smooth transitions
+- **Code syntax highlighting** for JSON
+- **Intuitive navigation** with breadcrumbs
+- **Responsive design** for all devices
 
-#### 🤖 Desenvolvimento com IA
-- **100% desenvolvido** usando GitHub Copilot
-- **Arquitetura planejada** automaticamente
-- **Código otimizado** seguindo melhores práticas
-- **Documentação completa** gerada pela IA
-- **Testes integrados** e validação automática
+#### 🤖 AI Development
+- **100% developed** using GitHub Copilot
+- **Automatically planned architecture**
+- **Optimized code** following best practices
+- **Complete documentation** generated by AI
+- **Integrated tests** and automatic validation
 
-### 📈 Estatísticas da v1.0.0
-- **Tempo de desenvolvimento:** ~2 horas
-- **Linhas de código:** 500+ linhas
-- **Arquivos criados:** 15+ arquivos
-- **Commits:** 5 commits organizados
-- **Tecnologias:** Laravel 12, SQLite, Bootstrap 5, Vite
+### 📈 v1.0.0 Stats
+- **Development time:** ~2 hours
+- **Lines of code:** 500+ lines
+- **Files created:** 15+ files
+- **Commits:** 5 organized commits
+- **Technologies:** Laravel 12, SQLite, Bootstrap 5, Vite
 
-### 🔧 Instalação
+### 🔧 Installation
 ```bash
-# Clonar o repositório
+# Clone the repository
 git clone https://github.com/leandrowferreira/webhook-store.git
 cd webhook-store
 
-# Instalar dependências
+# Install dependencies
 composer install
 npm install
 
-# Configurar banco de dados
+# Set up the database
 touch database/database.sqlite
 php artisan migrate
 
-# Compilar assets
+# Build assets
 npm run build
 
-# Iniciar servidor
+# Start server
 php artisan serve
 ```
 
-### 🚀 Uso
+### 🚀 Usage
 ```bash
-# Enviar webhook de teste
+# Send test webhook
 curl -X POST http://localhost:8000/webhook \
   -H "Content-Type: application/json" \
   -d '{"message": "Hello World!"}'
 
-# Acessar dashboard
+# Access dashboard
 open http://localhost:8000/dashboard
 ```
 
 ---
 
-## 🤖 Sobre o Desenvolvimento com IA
+## 🤖 About AI Development
 
-Este projeto representa um marco no desenvolvimento de software com inteligência artificial, demonstrando como ferramentas como o GitHub Copilot podem acelerar drasticamente o processo de criação, mantendo alta qualidade e seguindo as melhores práticas da indústria.
+This project represents a milestone in software development with artificial intelligence, demonstrating how tools like GitHub Copilot can drastically accelerate the creation process while maintaining high quality and following industry best practices.
 
-**Desenvolvido com ❤️ por GitHub Copilot**
+**Developed with ❤️ by GitHub Copilot**
